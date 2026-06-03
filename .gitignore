@@ -33,9 +33,15 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# clave de fal.ai (NUNCA subir a git)
+scripts/fal_key.txt
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# claude code local settings
+.claude/settings.local.json

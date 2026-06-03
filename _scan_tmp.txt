@@ -1,0 +1,54 @@
+=== public/pdfs ===
+total 16
+drwxr-xr-x  6 federico  staff  192 May 30 10:29 .
+drwxr-xr-x  9 federico  staff  288 May 19 19:43 ..
+-rw-r--r--  1 federico  staff  284 May 30 10:29 README.md
+drwxr-xr-x  2 federico  staff   64 May 30 10:29 cartillas
+drwxr-xr-x  2 federico  staff   64 May 30 10:29 formularios
+-rw-r--r--  1 federico  staff  317 May 19 19:51 placeholder.pdf
+
+=== src/pdfs ===
+total 10456
+drwxr-xr-x  13 federico  staff      416 May 30 10:38 .
+drwxr-xr-x   9 federico  staff      288 May 30 10:21 ..
+-rw-r--r--@  1 federico  staff    71207 May 30 10:19 DOCUMENTACION-PARA-DIABETES.pdf
+-rw-r--r--@  1 federico  staff    72129 May 30 10:19 FICHA-RELEVAMIENTO-DBT.pdf
+-rw-r--r--@  1 federico  staff   238082 May 30 10:19 FORMULARIO-ANEXO.pdf
+-rw-r--r--@  1 federico  staff   268363 May 30 10:18 FORMULARIO-DE-CRONICIDAD.pdf
+-rw-r--r--@  1 federico  staff   919337 May 30 10:18 Nota-modelo-de-inscripcin-de-empresa-a-obra-social.pdf
+-rw-r--r--@  1 federico  staff  1334137 May 30 10:18 PLANILLA-MINISTERIAL-HIV.pdf
+-rw-r--r--@  1 federico  staff   812936 May 30 10:20 cartilla-2024.pdf
+-rw-r--r--@  1 federico  staff   142130 May 30 10:38 concurso-preventivo.pdf
+-rw-r--r--@  1 federico  staff   399853 May 30 10:18 declaracion-jurada.pdf
+-rw-r--r--@  1 federico  staff   390597 May 30 10:16 instructivo-prestaciones-por-discapacidad2025.pdf
+-rw-r--r--@  1 federico  staff   680906 May 30 10:18 instructivo2023-res-360-22.pdf
+
+=== find pdf ===
+./public/pdfs/placeholder.pdf
+./src/pdfs/FORMULARIO-ANEXO.pdf
+./src/pdfs/cartilla-2024.pdf
+./src/pdfs/FICHA-RELEVAMIENTO-DBT.pdf
+./src/pdfs/instructivo2023-res-360-22.pdf
+./src/pdfs/Nota-modelo-de-inscripcin-de-empresa-a-obra-social.pdf
+./src/pdfs/FORMULARIO-DE-CRONICIDAD.pdf
+./src/pdfs/DOCUMENTACION-PARA-DIABETES.pdf
+./src/pdfs/declaracion-jurada.pdf
+./src/pdfs/instructivo-prestaciones-por-discapacidad2025.pdf
+./src/pdfs/PLANILLA-MINISTERIAL-HIV.pdf
+./src/pdfs/concurso-preventivo.pdf
+
+=== src/app ===
+coberturas
+contacto
+delegaciones
+favicon.ico
+formularios
+globals.css
+institucional
+layout.tsx
+not-found.tsx
+novedades
+page.tsx
+prestadores
+robots.ts
+sitemap.ts
