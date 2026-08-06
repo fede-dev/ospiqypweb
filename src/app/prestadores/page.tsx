@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
+import { PageHeader } from "@/components/shared/PageHeader";
 import { ProvidersTable } from "@/components/shared/ProvidersTable";
 import {
   PROVIDERS,
@@ -23,14 +24,11 @@ export default function PrestadoresPage() {
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-16">
-      <div className="max-w-3xl mb-10">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Prestadores</h1>
-        <p className="text-lg text-[color:var(--color-fg-soft)] leading-relaxed">
-          Consultá la cartilla de clínicas, sanatorios, centros de diagnóstico,
-          odontología, farmacias y ópticas de la red OSPIQYP. Buscá por nombre,
-          especialidad o localidad, o filtrá por zona y categoría.
-        </p>
-      </div>
+      <PageHeader
+        title="Prestadores"
+        description="Consultá la cartilla de clínicas, sanatorios, centros de diagnóstico, odontología, farmacias y ópticas de la red OSPIQYP. Buscá por nombre, especialidad o localidad, o filtrá por zona y categoría."
+        className="mb-10"
+      />
 
       {/* Descarga del resumen de cartilla */}
       <div className="mb-10 flex flex-col gap-4 rounded-xl border border-brand-100 bg-brand-50 p-6 sm:flex-row sm:items-center sm:justify-between">

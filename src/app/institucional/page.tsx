@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { BuildingOffice2Icon, EnvelopeIcon } from "@heroicons/react/24/outline";
 import { LEADERSHIP } from "@/content/leadership";
 import { ADDRESS } from "@/content/contact";
+import { PageHeader } from "@/components/shared/PageHeader";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -14,14 +15,11 @@ export const metadata: Metadata = pageMetadata({
 export default function InstitucionalPage() {
   return (
     <div className="container mx-auto px-4 py-12 md:py-16">
-      <div className="max-w-3xl">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Institucional</h1>
-        <p className="text-lg text-[color:var(--color-fg-soft)] leading-relaxed">
-          OSPIQYP es la Obra Social del Personal de Industrias Químicas y
-          Petroquímicas. Una organización sindical comprometida con la salud y
-          el bienestar de sus afiliados y sus familias en toda la Argentina.
-        </p>
-      </div>
+      {/* Sin margen inferior: la sección siguiente ya trae su propio `mt-12 md:mt-16`. */}
+      <PageHeader
+        title="Institucional"
+        description="OSPIQYP es la Obra Social del Personal de Industrias Químicas y Petroquímicas. Una organización sindical comprometida con la salud y el bienestar de sus afiliados y sus familias en toda la Argentina."
+      />
 
       <section className="mt-12 md:mt-16 max-w-3xl">
         <h2 className="text-3xl font-bold mb-6">Nuestra misión</h2>

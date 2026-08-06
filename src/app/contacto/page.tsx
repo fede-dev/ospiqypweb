@@ -14,6 +14,7 @@ import {
 } from "@/content/contact";
 import { PhoneLink } from "@/components/shared/PhoneLink";
 import { EmailLink } from "@/components/shared/EmailLink";
+import { PageHeader } from "@/components/shared/PageHeader";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -26,13 +27,11 @@ export const metadata: Metadata = pageMetadata({
 export default function ContactoPage() {
   return (
     <div className="container mx-auto px-4 py-12 md:py-16">
-      <div className="max-w-3xl mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Contacto</h1>
-        <p className="text-lg text-[color:var(--color-fg-soft)] leading-relaxed">
-          Estamos para atenderte. Comunicate con nosotros por el canal que más
-          te convenga.
-        </p>
-      </div>
+      <PageHeader
+        title="Contacto"
+        description="Estamos para atenderte. Comunicate con nosotros por el canal que más te convenga."
+        className="mb-12"
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Sede + horarios */}

@@ -12,6 +12,7 @@ import {
   COPAYS_INTRO,
   COPAYS_FOOTNOTE,
 } from "@/content/copays";
+import { PageHeader } from "@/components/shared/PageHeader";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -24,14 +25,11 @@ export const metadata: Metadata = pageMetadata({
 export default function CoberturasPage() {
   return (
     <div className="container mx-auto px-4 py-12 md:py-16">
-      <div className="max-w-3xl mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Coberturas</h1>
-        <p className="text-lg text-[color:var(--color-fg-soft)] leading-relaxed">
-          OSPIQYP ofrece cobertura médica integral según el Programa Médico
-          Obligatorio (PMO) más prestaciones específicas para nuestros
-          afiliados.
-        </p>
-      </div>
+      <PageHeader
+        title="Coberturas"
+        description="OSPIQYP ofrece cobertura médica integral según el Programa Médico Obligatorio (PMO) más prestaciones específicas para nuestros afiliados."
+        className="mb-12"
+      />
 
       <ul className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {COVERAGE.map((section) => (

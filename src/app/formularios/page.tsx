@@ -6,6 +6,7 @@ import {
   type DownloadForm,
   type FormCategory,
 } from "@/content/forms";
+import { PageHeader } from "@/components/shared/PageHeader";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -27,13 +28,11 @@ export default function FormulariosPage() {
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-16">
-      <div className="max-w-3xl mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Formularios</h1>
-        <p className="text-lg text-[color:var(--color-fg-soft)] leading-relaxed">
-          Descargá los formularios y documentos que necesitás para tus trámites.
-          Todos los archivos están en formato PDF.
-        </p>
-      </div>
+      <PageHeader
+        title="Formularios"
+        description="Descargá los formularios y documentos que necesitás para tus trámites. Todos los archivos están en formato PDF."
+        className="mb-12"
+      />
 
       <div className="space-y-12">
         {grouped.map((group) => (

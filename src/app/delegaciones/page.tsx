@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { MapPinIcon, PhoneIcon } from "@heroicons/react/24/outline";
 import { DELEGATIONS } from "@/content/delegations";
+import { PageHeader } from "@/components/shared/PageHeader";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -22,13 +23,11 @@ export default function DelegacionesPage() {
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-16">
-      <div className="max-w-3xl mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Delegaciones</h1>
-        <p className="text-lg text-[color:var(--color-fg-soft)] leading-relaxed">
-          Tenemos presencia en todo el país. Encontrá la delegación más cercana
-          para realizar tus trámites presenciales.
-        </p>
-      </div>
+      <PageHeader
+        title="Delegaciones"
+        description="Tenemos presencia en todo el país. Encontrá la delegación más cercana para realizar tus trámites presenciales."
+        className="mb-12"
+      />
 
       <div className="space-y-10">
         {provinces.map((province) => (

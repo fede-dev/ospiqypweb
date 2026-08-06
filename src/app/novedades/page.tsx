@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { NEWS } from "@/content/news";
+import { PageHeader } from "@/components/shared/PageHeader";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -12,12 +13,11 @@ export const metadata: Metadata = pageMetadata({
 export default function NovedadesPage() {
   return (
     <div className="container mx-auto px-4 py-12 md:py-16">
-      <div className="max-w-3xl mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Novedades</h1>
-        <p className="text-lg text-[color:var(--color-fg-soft)] leading-relaxed">
-          Información institucional y comunicados para nuestros afiliados.
-        </p>
-      </div>
+      <PageHeader
+        title="Novedades"
+        description="Información institucional y comunicados para nuestros afiliados."
+        className="mb-12"
+      />
 
       <div className="space-y-6 max-w-3xl">
         {NEWS.map((item) => (

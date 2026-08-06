@@ -12,6 +12,7 @@ import {
   ArrowDownTrayIcon,
 } from "@heroicons/react/24/outline";
 import { FORMS } from "@/content/forms";
+import { PageHeader } from "@/components/shared/PageHeader";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -41,14 +42,13 @@ export default function DiscapacidadPage() {
         Volver a Coberturas
       </Link>
 
-      <div className="max-w-3xl mb-10">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Programa Discapacidad</h1>
-        <p className="text-lg text-[color:var(--color-fg-soft)] leading-relaxed">
-          Programa integral para afiliados con discapacidad certificada, con
-          cobertura al 100% según la Ley 24.901. A continuación, la información
-          para afiliados y prestadores sobre requisitos, plazos y trámites.
-        </p>
-      </div>
+      {/* El "Volver a Coberturas" va arriba del encabezado, no adentro: es navegación
+          de la página, no parte del título. Por eso PageHeader no expone `children`. */}
+      <PageHeader
+        title="Programa Discapacidad"
+        description="Programa integral para afiliados con discapacidad certificada, con cobertura al 100% según la Ley 24.901. A continuación, la información para afiliados y prestadores sobre requisitos, plazos y trámites."
+        className="mb-10"
+      />
 
       {/* Aviso instructivo 2026 */}
       <div className="mb-8 flex items-start gap-3 rounded-xl border border-brand-100 bg-brand-50 p-5 md:p-6">

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { Accordion, type AccordionItemData } from "@/components/shared/Accordion";
 import { CatalogTable } from "@/components/shared/CatalogTable";
+import { PageHeader } from "@/components/shared/PageHeader";
 import {
   PMO_INTRO,
   PMO_PRESTACIONES,
@@ -78,14 +79,11 @@ export default function ProgramaMedicoObligatorioPage() {
   return (
     <div className="container mx-auto px-4 py-12 md:py-16">
       {/* Encabezado */}
-      <div className="max-w-3xl mb-10">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">
-          Programa Médico Obligatorio (PMO)
-        </h1>
-        <p className="text-lg text-[color:var(--color-fg-soft)] leading-relaxed">
-          {PMO_INTRO}
-        </p>
-      </div>
+      <PageHeader
+        title="Programa Médico Obligatorio (PMO)"
+        description={PMO_INTRO}
+        className="mb-10"
+      />
 
       {/* Índice de subsecciones */}
       <nav
