@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Prestadores",
   description:
-    "Cartilla de prestadores de OSPIQYP: clínicas, sanatorios, centros de diagnóstico, farmacias y ópticas en CABA y zonas adyacentes. Buscá por zona y categoría.",
+    "Cartilla de prestadores de OSPIQYP: clínicas, sanatorios, centros de diagnóstico, odontología, farmacias y ópticas en CABA y zonas adyacentes. Buscá por zona y categoría.",
 };
 
 export default function PrestadoresPage() {
@@ -25,8 +25,8 @@ export default function PrestadoresPage() {
         <h1 className="text-4xl md:text-5xl font-bold mb-6">Prestadores</h1>
         <p className="text-lg text-[color:var(--color-fg-soft)] leading-relaxed">
           Consultá la cartilla de clínicas, sanatorios, centros de diagnóstico,
-          farmacias y ópticas de la red OSPIQYP. Buscá por nombre o filtrá por
-          zona y categoría.
+          odontología, farmacias y ópticas de la red OSPIQYP. Buscá por nombre,
+          especialidad o localidad, o filtrá por zona y categoría.
         </p>
       </div>
 

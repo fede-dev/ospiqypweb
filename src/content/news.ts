@@ -19,15 +19,4 @@ export const NEWS: NewsItem[] = [
       "Para verificar si te cambiaron de obra social sin permiso, podés consultarnos a afiliaciones@ospiqyp.org.ar. En caso de haber caído en este tipo de fraude, debés denunciarlo en la Superintendencia de Servicios de Salud a través de TAD (Trámites a Distancia) para solucionarlo y evitar también que siga sucediendo con otros beneficiarios.",
     ],
   },
-  {
-    slug: "concurso-preventivo",
-    title: "Apertura de concurso preventivo",
-    date: "2026",
-    summary:
-      "La Obra Social ha solicitado la apertura de un concurso preventivo.",
-    body: [
-      "La Obra Social ha solicitado la apertura de un concurso preventivo en el marco de la normativa vigente.",
-      "Las prestaciones a los afiliados continúan con normalidad. Ante cualquier consulta, comunicate con las líneas de atención habituales.",
-    ],
-  },
 ];

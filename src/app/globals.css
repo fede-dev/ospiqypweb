@@ -80,12 +80,12 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.01em;
-  color: var(--color-fg);
-}
-
-/* En contenedores oscuros (footer) los títulos heredan el color del texto
-   (blanco) en lugar del gris oscuro por defecto. */
-footer h1, footer h2, footer h3, footer h4, footer h5, footer h6 {
+  /* `inherit`, no `var(--color-fg)`: un selector de elemento le gana a la
+     herencia, así que fijar el color acá dejaba los títulos casi negros dentro
+     de cualquier contenedor oscuro (hero, footer) por más que el contenedor
+     tuviera `text-white`. Como el `body` ya define `var(--color-fg)`, heredar
+     da el mismo gris oscuro de siempre en el resto del sitio, y además los
+     títulos siguen el color de su contenedor donde corresponde. */
   color: inherit;
 }
 

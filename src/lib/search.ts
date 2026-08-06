@@ -90,7 +90,7 @@ export const SEARCH_INDEX: SearchItem[] = [
       .join(" · "),
     href: "/prestadores",
     category: "Prestadores",
-    keywords: [p.category, p.zone, p.locality ?? "", p.name],
+    keywords: [p.category, p.zone, p.locality ?? "", p.name, ...(p.specialties ?? [])],
   })),
 ];
 

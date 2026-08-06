@@ -10,7 +10,7 @@ export function Hero() {
           - escritorio -> versión horizontal (16:9)
           Si todavía no existen, se ve el degradé azul como fallback. */}
       <Image
-        src="/images/banners/hero-fondo-mobile.png"
+        src="/images/banners/hero-fondo-mobile.webp"
         alt=""
         fill
         priority
@@ -18,7 +18,7 @@ export function Hero() {
         className="-z-10 object-cover object-center md:hidden"
       />
       <Image
-        src="/images/banners/hero-fondo.png"
+        src="/images/banners/hero-fondo.webp"
         alt=""
         fill
         priority

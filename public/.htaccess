@@ -1,0 +1,21 @@
+# Sitio estático (Next.js export). Apache sirve cada carpeta vía su index.html.
+DirectoryIndex index.html
+
+# Página de error 404 propia del sitio.
+ErrorDocument 404 /404.html
+
+# Compresión de texto (mejora velocidad).
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml text/plain
+</IfModule>
+
+# Caché de assets estáticos versionados por Next (/_next/).
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType image/webp "access plus 30 days"
+</IfModule>

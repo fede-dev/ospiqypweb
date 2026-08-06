@@ -36,6 +36,10 @@ yarn-error.log*
 # clave de fal.ai (NUNCA subir a git)
 scripts/fal_key.txt
 
+# artefactos temporales
+scripts/__pycache__/
+_scan_tmp.txt
+
 # vercel
 .vercel
 

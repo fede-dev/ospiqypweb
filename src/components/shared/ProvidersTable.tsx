@@ -40,7 +40,8 @@ export function ProvidersTable({ items, zones, categories }: ProvidersTableProps
       return (
         p.name.toLowerCase().includes(q) ||
         (p.locality?.toLowerCase().includes(q) ?? false) ||
-        (p.address?.toLowerCase().includes(q) ?? false)
+        (p.address?.toLowerCase().includes(q) ?? false) ||
+        (p.specialties?.some((s) => s.toLowerCase().includes(q)) ?? false)
       );
     });
   }, [items, query, zone, category]);
@@ -145,6 +146,11 @@ export function ProvidersTable({ items, zones, categories }: ProvidersTableProps
                 </span>
               </div>
               <h3 className="font-semibold text-[color:var(--color-fg)]">{p.name}</h3>
+              {p.specialties && p.specialties.length > 0 && (
+                <p className="mt-0.5 text-sm text-[color:var(--color-fg-soft)]">
+                  {p.specialties.join(" · ")}
+                </p>
+              )}
               {p.address && (
                 <p className="mt-1 flex items-start gap-1.5 text-sm text-[color:var(--color-fg-soft)]">
                   <MapPinIcon className="size-4 flex-shrink-0 text-brand-600 mt-0.5" aria-hidden="true" />
@@ -159,6 +165,11 @@ export function ProvidersTable({ items, zones, categories }: ProvidersTableProps
                   <PhoneIcon className="size-4 flex-shrink-0" aria-hidden="true" />
                   {p.phone}
                 </a>
+              )}
+              {p.license && (
+                <p className="mt-1 text-xs text-[color:var(--color-fg-muted)]">
+                  Mat. {p.license}
+                </p>
               )}
               {p.note && (
                 <p className="mt-2 text-xs text-[color:var(--color-fg-muted)]">{p.note}</p>

@@ -1,6 +1,9 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site";
 
+// Requerido por `output: export`: generar el archivo en build-time.
+export const dynamic = "force-static";
+
 // Fecha de última actualización del contenido del sitio. Se actualiza
 // manualmente al publicar cambios; evita que el sitemap "cambie" en cada build.
 const LAST_MODIFIED = new Date("2026-05-30");

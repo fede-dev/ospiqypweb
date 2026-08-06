@@ -10,6 +10,7 @@ export type ProviderCategory =
   | "Clínicas y Sanatorios"
   | "Centros de Diagnóstico"
   | "Kinesiología"
+  | "Odontología"
   | "Farmacias"
   | "Ópticas";
 
@@ -27,6 +28,10 @@ export type Provider = {
   locality?: string;
   address?: string;
   phone?: string;
+  /** Especialidades del profesional (odontología: general, endodoncia, etc.). */
+  specialties?: string[];
+  /** Matrícula profesional, tal como figura en la cartilla. */
+  license?: string;
   note?: string;
 };
 
@@ -345,4 +350,23 @@ export const PROVIDERS: Provider[] = [
   { name: "Álvarez", category: "Farmacias", zone: "Provincia de Buenos Aires", locality: "Santa Lucía", address: "San Martín 498", phone: "(03329) 491550" },
   { name: "A.M.E.M.T.", category: "Farmacias", zone: "Provincia de Buenos Aires", locality: "Tandil", address: "San Martín 840", phone: "(0249) 4421989 / 4448733" },
   { name: "Silvetti Justa", category: "Farmacias", zone: "Provincia de Buenos Aires", locality: "Zárate", address: "Lima de Atucha 330", phone: "(03487) 422101 / 424611" },
+
+  /* ============ ODONTOLOGÍA — Delegación San Miguel del Monte (Abbott) ============ */
+  // Cañuelas
+  { name: "Avalos Roxana", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "Cañuelas", address: "Ameghino 642", phone: "02226-15-474572", specialties: ["Odontología General"], license: "BMP 24813" },
+  { name: "Gil María Candelaria", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "Cañuelas", address: "25 de Mayo 331", phone: "02226-15-603337", specialties: ["Odontología General"], license: "BMP 32821", note: "Atiende por WhatsApp" },
+  { name: "González Alejandra", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "Cañuelas", address: "25 de Mayo 411", phone: "02226-422120", specialties: ["Odontología General"], license: "BMP 22833" },
+  { name: "Martínez Adriana E.", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "Cañuelas", address: "San Martín 735", phone: "02226-15-484110", specialties: ["Odontología General"], license: "BMP 32738", note: "Atiende por WhatsApp" },
+  { name: "Moscoloni Agustina", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "Cañuelas", address: "25 de Mayo 331", phone: "02226-15-603337", specialties: ["Odontología General"], license: "BMP 80746", note: "Atiende por WhatsApp" },
+  { name: "Rodríguez Mariana", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "Cañuelas", address: "25 de Mayo 411", phone: "02226-15-535402", specialties: ["Odontología General"], license: "BMP 80703" },
+  { name: "Rolandelli Patricia", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "Cañuelas", address: "25 de Mayo 331", phone: "02226-15-603337", specialties: ["Odontología General"], license: "BMP 31727", note: "Atiende por WhatsApp" },
+  { name: "Rubini Leonardo", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "Cañuelas", address: "M. Acuña 633", phone: "02226-15-471010", specialties: ["Odontología General", "Endodoncia"], license: "BMP 32166", note: "Atiende por WhatsApp" },
+  { name: "Suárez Carolina", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "Cañuelas", address: "Moreno 844", phone: "02226-15-527301", specialties: ["Odontología General"], license: "BMP 32484" },
+  { name: "Zanardi Carla", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "Cañuelas", address: "Sarmiento 664", phone: "02226-15-603337", specialties: ["Odontología General", "Odontopediatría"], license: "BMP 33296", note: "Atiende por WhatsApp" },
+  // San Miguel del Monte
+  { name: "Castro Claudia Gabriela", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "San Miguel del Monte", address: "Alem 855", phone: "02271-406637", specialties: ["Odontología General"], license: "BMP 80512", note: "Atiende solo los miércoles" },
+  { name: "Musaubach Marisa", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "San Miguel del Monte", address: "Sanden y Rojas 507", phone: "02271-405652", specialties: ["Odontología General"], license: "BMP 11909" },
+  { name: "Olivieri Celeste", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "San Miguel del Monte", address: "Petrachi 248", phone: "02226-15-529305", specialties: ["Odontología General"], license: "BMP 80706" },
+  { name: "Pérez Mogni Virginia Susana", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "San Miguel del Monte", address: "Rivadavia 381", phone: "02271-406581", specialties: ["Odontología General"], license: "BMP 13637" },
+  { name: "Villani Micaela Soledad", category: "Odontología", zone: "Provincia de Buenos Aires", locality: "San Miguel del Monte", address: "Nolasco Rojas 345", phone: "420890", specialties: ["Odontología General"], license: "BMP 80851" },
 ];
