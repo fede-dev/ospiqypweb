@@ -66,9 +66,13 @@ export function Hero() {
             personalizada para vos y tu familia.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
+            {/* accent-600 y no accent-500: el 500 (#43a047) con texto blanco da
+                3.3:1 y no llega al 4.5:1 de WCAG AA — lo marcó Lighthouse sobre
+                producción. El 600 (#2e7d32) da 5.13:1 y mantiene el mismo
+                lenguaje visual (verde que se oscurece al pasar el mouse). */}
             <Link
               href="/coberturas"
-              className="inline-flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-lg"
+              className="inline-flex items-center justify-center gap-2 bg-accent-600 hover:bg-accent-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-lg"
             >
               Ver coberturas
               <ArrowRightIcon className="size-5" aria-hidden="true" />

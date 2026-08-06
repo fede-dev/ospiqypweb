@@ -30,8 +30,12 @@ export function Header() {
             <Image
               src="/images/logo.png"
               alt="OSPIQYP"
-              width={150}
-              height={60}
+              // Las medidas REALES del archivo (93x43), no las que había antes
+              // (150x60): con `w-auto` estos valores sólo fijan la proporción que
+              // se reserva mientras carga, y declarar 2.5:1 sobre una imagen de
+              // 2.16:1 reservaba una caja de ancho equivocado.
+              width={93}
+              height={43}
               priority
               className="h-10 md:h-12 w-auto"
             />
