@@ -49,3 +49,8 @@ next-env.d.ts
 
 # claude code local settings
 .claude/settings.local.json
+
+# reportes de cobertura de vitest
+/coverage
+# worktrees de agentes
+/.claude/worktrees

@@ -97,7 +97,7 @@ export function CatalogTable({ items, categories }: CatalogTableProps) {
       <p className="mt-3 text-sm text-[color:var(--color-fg-muted)]">
         {filtered.length === 0
           ? "No se encontraron prestaciones para tu búsqueda."
-          : `${filtered.length} prestación${filtered.length === 1 ? "" : "es"} ${
+          : `${filtered.length} ${filtered.length === 1 ? "prestación" : "prestaciones"} ${
               query || category ? "encontrada" + (filtered.length === 1 ? "" : "s") : "en total"
             }`}
       </p>

@@ -1,30 +1,52 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRightIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 
 export function Hero() {
   return (
     <section className="relative isolate overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-brand-800 text-white">
       {/* Fondo generado con IA (Nano Banana Pro), responsive:
-          - celular  -> versión vertical (4:5)
-          - escritorio -> versión horizontal (16:9)
-          Si todavía no existen, se ve el degradé azul como fallback. */}
-      <Image
-        src="/images/banners/hero-fondo-mobile.webp"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="-z-10 object-cover object-center md:hidden"
-      />
-      <Image
-        src="/images/banners/hero-fondo.webp"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="-z-10 hidden object-cover object-right md:block"
-      />
+          - celular  -> versión vertical (4:5), encuadre centrado
+          - escritorio -> versión horizontal (16:9), encuadre a la derecha
+          Si todavía no existen, se ve el degradé azul como fallback.
+
+          POR QUÉ <picture> + <img> NATIVO Y NO DOS <Image> CON priority:
+          antes había dos next/image (una `md:hidden`, otra `hidden md:block`),
+          las dos con `priority`. `priority` emite un <link rel="preload"> en el
+          <head>, pero quién se ve lo decide el CSS: el navegador bajaba LAS DOS
+          (~157 KB) en cada visita y descartaba una, con el warning de consola
+          "preloaded using link preload but not used". Con <picture> la elección
+          la hace el propio navegador por `media` ANTES de pedir nada, así que se
+          descarga una sola imagen. Y como el proyecto usa `output: "export"` con
+          `images.unoptimized: true`, next/image acá no optimizaba nada: sólo
+          aportaba el posicionamiento de `fill`, que se replica con
+          `absolute inset-0 size-full object-cover` (idéntico CSS, sin CLS).
+          Sigue siendo carga prioritaria: el preload scanner la descubre apenas
+          parsea el HTML (es lo primero del <body>) y `fetchPriority="high"` la
+          pone al tope de la cola, que es lo que hace falta para el LCP.
+
+          El `media` del <source> es min-width (mobile-first) y en `rem` para
+          calcar el breakpoint `md:` de Tailwind v4 (48rem) — si el usuario
+          agranda la tipografía del navegador, imagen y CSS siguen coincidiendo.
+          El <img> de fallback apunta a la versión mobile: es la más liviana y la
+          que usa el navegador viejo que ignore <source>. */}
+      <picture className="contents">
+        <source
+          media="(min-width: 48rem)"
+          srcSet="/images/banners/hero-fondo.webp"
+        />
+        {/* <img> nativo a propósito: next/image no permite anidar <source>, y
+            con `images.unoptimized: true` no aporta optimización. No hace falta
+            desactivar `@next/next/no-img-element` porque la regla ya exceptúa
+            los <img> que viven adentro de un <picture>. */}
+        <img
+          src="/images/banners/hero-fondo-mobile.webp"
+          alt=""
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 -z-10 size-full object-cover object-center md:object-right"
+        />
+      </picture>
       {/* Degradé para legibilidad del texto blanco. En celular es vertical
           (cubre todo el ancho); en escritorio es lateral (más oscuro a la izquierda). */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-brand-900/95 via-brand-900/75 to-brand-900/40 md:hidden" />
