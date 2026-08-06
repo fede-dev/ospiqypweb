@@ -31,3 +31,20 @@ vercel.svg
 globe.svg
 window.svg
 file.svg
+
+# --- 2026-08-06: /coberturas/pmo/ ---
+# Era una página en blanco indexable: usaba permanentRedirect(), que con
+# output:"export" no genera redirect y Apache servía el HTML vacío con 200.
+# Ahora el 301 lo hace el .htaccess, pero mientras estos archivos existan Apache
+# sirve el archivo real y la regla de mod_alias nunca llega a aplicarse.
+# Los archivos van antes que el directorio: RMD sólo borra directorios vacíos.
+coberturas/pmo/index.html
+coberturas/pmo/index.txt
+coberturas/pmo/__next._full.txt
+coberturas/pmo/__next._head.txt
+coberturas/pmo/__next._index.txt
+coberturas/pmo/__next._tree.txt
+coberturas/pmo/__next.coberturas.pmo.__PAGE__.txt
+coberturas/pmo/__next.coberturas.pmo.txt
+coberturas/pmo/__next.coberturas.txt
+coberturas/pmo/

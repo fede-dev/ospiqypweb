@@ -7,15 +7,22 @@ ErrorDocument 404 /404.html
 # Redirecciones permanentes de rutas viejas.
 # /coberturas/pmo se mudó a /programa-medico-obligatorio. Antes vivía como una
 # page de Next con permanentRedirect(), pero eso NO funciona con output:"export":
-# el build generaba un HTML sin meta refresh que Apache servía con 200, o sea una
-# página en blanco e indexable. El redirect de verdad lo tiene que hacer Apache.
-# Ojo con el ORDEN: mod_alias compara Redirect por prefijo y gana el primero que
-# matchea, así que la variante CON barra final va primero. Al revés,
-# /coberturas/pmo/ matchearía la regla sin barra y el resto ("/") se pegaría al
-# destino: terminaría en /programa-medico-obligatorio// (doble barra).
-<IfModule mod_alias.c>
-  Redirect 301 /coberturas/pmo/ /programa-medico-obligatorio/
-  Redirect 301 /coberturas/pmo  /programa-medico-obligatorio/
+# el build generaba un HTML sin meta refresh que el server devolvía con 200, o
+# sea una página en blanco e indexable. El redirect lo tiene que hacer el server.
+#
+# Va con mod_rewrite y NO con `Redirect` de mod_alias, aunque mod_alias sea el
+# camino obvio: este hosting corre LiteSpeed, no Apache. LiteSpeed interpreta el
+# .htaccess pero NO declara mod_alias.c, así que un <IfModule mod_alias.c> evalúa
+# falso y el bloque entero se saltea EN SILENCIO — la ruta seguía dando 404 y no
+# había ningún error que lo delatara. mod_rewrite sí lo reconoce (verificado
+# contra producción: `server: LiteSpeed`).
+#
+# El `/?` del patrón cubre la ruta con y sin barra final en una sola regla, así
+# que no hay que cuidar el orden entre dos directivas ni arriesgar la doble barra
+# en el destino.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^coberturas/pmo/?$ /programa-medico-obligatorio/ [R=301,L]
 </IfModule>
 
 # Compresión de texto (mejora velocidad).
