@@ -51,8 +51,12 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
             Buscador del sitio de OSPIQYP. Tipeá para encontrar servicios, formularios, delegaciones y más.
           </Dialog.Description>
 
-          {/* Input */}
-          <div className="flex items-center gap-3 px-4 py-3 border-b border-[color:var(--color-border)]">
+          {/* Input. El anillo de foco va en el contenedor (focus-within) y no en
+              el input: el input es transparente y ocupa toda la fila, así que un
+              outline propio se vería cortado contra el borde. Antes tenía
+              outline-none sin nada que lo reemplace, a diferencia de los otros
+              inputs del sitio. */}
+          <div className="flex items-center gap-3 px-4 py-3 border-b border-[color:var(--color-border)] focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-100">
             <MagnifyingGlassIcon className="size-5 text-[color:var(--color-fg-muted)] flex-shrink-0" aria-hidden="true" />
             <input
               type="text"

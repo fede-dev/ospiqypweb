@@ -11,6 +11,7 @@ Lee las credenciales de un archivo externo (no hardcodeadas, no en argv) con for
 Uso:
     python3 scripts/deploy_cpanel.py --creds ~/.ospiqyp_deploy list      # lista el destino
     python3 scripts/deploy_cpanel.py --creds ~/.ospiqyp_deploy upload    # sube out/ al destino
+    python3 scripts/deploy_cpanel.py --creds ~/.ospiqyp_deploy prune     # borra lo listado en scripts/prune-list.txt
 
 La contraseña nunca se imprime.
 """
@@ -19,7 +20,11 @@ import ftplib
 import os
 import sys
 
-LOCAL_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "out")
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOCAL_DIR = os.path.join(REPO_ROOT, "out")
+# La lista de borrado vive versionada en el repo: así queda en el historial de
+# git qué se sacó de producción y cuándo, y se revisa en un diff antes de correr.
+PRUNE_LIST = os.path.join(REPO_ROOT, "scripts", "prune-list.txt")
 
 
 def load_creds(path):
@@ -126,7 +131,19 @@ def cmd_list(ftp, creds):
 
 
 def cmd_backup(ftp, creds):
-    """Mueve TODO lo que hay hoy en CP_DIR a CP_DIR/_wp_viejo (reversible, no borra)."""
+    """DEPRECADO. Archivaba el WordPress viejo moviendo TODO CP_DIR a _wp_viejo/.
+
+    Se usó UNA sola vez, en la migración de WordPress al export estático, cuando
+    CP_DIR todavía tenía el sitio viejo. Hoy CP_DIR ES EL SITIO EN PRODUCCIÓN:
+    correr esto por accidente (autocompletado, un comando viejo del historial)
+    se lleva index.html y _next/ a un subdirectorio y tira la web abajo en el
+    acto. Por eso quedó con el nombre "wp-archive-DEPRECADO" —imposible de
+    tipear sin querer— y con el portero de abajo, que aborta si detecta que en
+    el destino vive el sitio nuevo.
+
+    No se borró la función porque sigue siendo el único camino de vuelta si
+    alguna vez hay que archivar un CP_DIR ajeno al deploy actual.
+    """
     base = creds["CP_DIR"].rstrip("/")
     backup = "_wp_viejo"
     # Nunca mover estas entradas (requeridas por el server o el propio backup).
@@ -134,6 +151,17 @@ def cmd_backup(ftp, creds):
     ftp.cwd("/")
     ftp.cwd(base)
     names = ftp.nlst()
+    presentes = {os.path.basename(n) for n in names}
+    # index.html + _next/ juntos son la huella inconfundible del export de Next.
+    # Cualquiera de los dos suelto puede ser casualidad; los dos, no.
+    if "index.html" in presentes and "_next" in presentes:
+        sys.exit(
+            f"\n🛑 ABORTADO: en {base}/ hay index.html Y _next/ — ahí vive el sitio\n"
+            "   estático EN PRODUCCIÓN, no el WordPress viejo.\n\n"
+            "   Mover eso a _wp_viejo/ deja la web caída hasta que alguien lo\n"
+            "   revierta a mano. Si de verdad querés archivar otro directorio,\n"
+            "   apuntá CP_DIR a ese otro directorio en el archivo de credenciales."
+        )
     entries = [n for n in names if os.path.basename(n) not in keep]
     if not entries:
         print("Nada para respaldar (el directorio ya está limpio).")
@@ -153,6 +181,174 @@ def cmd_backup(ftp, creds):
         except ftplib.error_perm as e:
             print(f"  ⚠️  no pude mover {leaf}: {e}")
     print(f"\n✅ Respaldo listo: {moved} entradas en {base}/{backup}/")
+
+
+def motivo_de_rechazo(rel):
+    """Devuelve por qué una ruta de la lista es peligrosa, o None si es sana.
+
+    Todo lo que se rechaza acá es algo que, mal interpretado por el server,
+    borraría más de lo escrito: una ruta absoluta se escapa de CP_DIR, un '..'
+    sube al home de la cuenta, un comodín lo expande el server (no nosotros) y
+    una ruta que se queda sin partes apunta al propio CP_DIR.
+    """
+    if rel.startswith("/"):
+        return "es absoluta; tiene que ser relativa a CP_DIR"
+    if any(c in rel for c in "*?[]"):
+        return "tiene comodines; sólo se aceptan rutas literales"
+    partes = [p for p in rel.strip("/").split("/") if p and p != "."]
+    if not partes:
+        return "queda vacía: apuntaría al propio CP_DIR"
+    if ".." in partes:
+        return "sube de directorio con '..'"
+    return None
+
+
+def load_prune_list(path):
+    """Lee scripts/prune-list.txt: una ruta por línea, relativa a CP_DIR.
+
+    Es a propósito una lista EXPLÍCITA y escrita a mano. La tentación obvia es
+    deducir qué sobra comparando out/ contra el server, pero ese diff se apoya
+    en que el build local esté completo: con un out/ a medias (build cortado,
+    npm run build que falló silencioso) "lo que sobra" pasa a ser el sitio
+    entero y se borra solo. Mantener la lista a mano es barato al lado de eso.
+    """
+    if not os.path.isfile(path):
+        sys.exit(f"No existe la lista {path}. Creala con una ruta por línea.")
+    rutas = []
+    with open(path, encoding="utf-8") as f:
+        for nro, line in enumerate(f, 1):
+            rel = line.strip()
+            if not rel or rel.startswith("#"):
+                continue
+            motivo = motivo_de_rechazo(rel)
+            if motivo:
+                sys.exit(f"{path}:{nro}: ruta rechazada ({motivo}): {rel}")
+            rutas.append(rel)
+    return rutas
+
+
+def remote_size(ftp, path):
+    """Tamaño en bytes de un archivo remoto, o None si no existe."""
+    try:
+        ftp.voidcmd("TYPE I")  # SIZE en modo ASCII no lo soportan todos los servers.
+        return ftp.size(path)
+    except ftplib.all_errors:
+        return None
+
+
+def remote_dir_existe(ftp, path):
+    """True si path es un directorio al que se puede entrar. Deja el cwd como estaba."""
+    try:
+        previo = ftp.pwd()
+    except ftplib.all_errors:
+        previo = None
+    try:
+        ftp.cwd(path)
+        return True
+    except ftplib.all_errors:
+        return False
+    finally:
+        if previo:
+            try:
+                ftp.cwd(previo)
+            except ftplib.all_errors:
+                pass
+
+
+def cmd_prune(ftp, creds):
+    """Borra del server SÓLO las rutas escritas en scripts/prune-list.txt.
+
+    Dos fases separadas a propósito: primero releva y muestra qué encontró
+    (ruta + tamaño real en el server), y recién después de que un humano
+    escriba BORRAR toca algo. Mostrar el tamaño no es decorativo: es la forma
+    de darse cuenta de que la ruta que se creía un PNG viejo pesa 40 MB y en
+    realidad es otra cosa.
+    """
+    base = creds["CP_DIR"].rstrip("/")
+    rutas = load_prune_list(PRUNE_LIST)
+    if not rutas:
+        print(f"La lista {PRUNE_LIST} no tiene rutas activas. Nada para borrar.")
+        return
+
+    # --- Fase 1: relevar. Acá no se borra NADA. ---
+    print(f"\nRelevando {len(rutas)} rutas en {base}/ ...\n")
+    plan = []
+    for rel in rutas:
+        # Ruta absoluta desde la raíz FTP, igual que ensure_dir() y cmd_list():
+        # si dependiera del cwd de la sesión, un cwd heredado haría que
+        # 'images/x.png' apunte a otro directorio del que uno cree.
+        full = f"/{base.strip('/')}/{rel.strip('/')}"
+        # La barra final es la forma de declarar "esto es un directorio": no la
+        # adivinamos, porque un SIZE sobre un directorio responde distinto en
+        # cada server y confundirse de tipo significa llamar al comando equivocado.
+        if rel.endswith("/"):
+            plan.append((rel, full, "dir", None, remote_dir_existe(ftp, full)))
+        else:
+            size = remote_size(ftp, full)
+            plan.append((rel, full, "file", size, size is not None))
+
+    presentes = [p for p in plan if p[4]]
+    ausentes = [p for p in plan if not p[4]]
+    total_bytes = sum(p[3] or 0 for p in presentes if p[2] == "file")
+
+    for rel, _full, tipo, size, _ok in presentes:
+        etiqueta = "(directorio)" if tipo == "dir" else f"{size:>12,} bytes"
+        print(f"  BORRAR   {etiqueta}  {base}/{rel}")
+    for rel, _full, _tipo, _size, _ok in ausentes:
+        # No es error fatal: la lista se corre más de una vez y lo ya borrado
+        # queda igual escrito, como registro de qué se sacó.
+        print(f"  ausente  {'(ya no está)':>12}  {base}/{rel}")
+
+    if not presentes:
+        print("\nNinguna de las rutas existe en el server. No hay nada para borrar.")
+        return
+
+    print(
+        f"\nTotal a liberar: {total_bytes:,} bytes "
+        f"({total_bytes / 1024 / 1024:.1f} MB) en {len(presentes)} entradas."
+    )
+
+    # --- Fase 2: confirmación humana explícita. ---
+    if not sys.stdin.isatty():
+        sys.exit(
+            "🛑 ABORTADO: prune necesita confirmación interactiva y no hay terminal.\n"
+            "   No se corre desatendido ni desde un pipe a propósito."
+        )
+    print("\nEscribí BORRAR (en mayúsculas) para confirmar, o cualquier otra cosa para salir.")
+    try:
+        respuesta = input("> ").strip()
+    except (EOFError, KeyboardInterrupt):
+        respuesta = ""
+    if respuesta != "BORRAR":
+        print("Cancelado: no se borró nada.")
+        return
+
+    # --- Fase 3: borrar y verificar una por una. ---
+    print()
+    borrados, fallidos = 0, 0
+    for rel, full, tipo, _size, _ok in presentes:
+        try:
+            if tipo == "dir":
+                ftp.rmd(full)  # sólo directorios vacíos: si tiene contenido, falla y avisa.
+            else:
+                ftp.delete(full)
+        except ftplib.all_errors as e:
+            fallidos += 1
+            print(f"  ⚠️  falló  {base}/{rel}: {e}")
+            continue
+        # Verificar contra el server, no confiar en que el comando no tiró error:
+        # algunos servers responden 250 y no borran nada.
+        sigue = remote_dir_existe(ftp, full) if tipo == "dir" else remote_size(ftp, full) is not None
+        if sigue:
+            fallidos += 1
+            print(f"  ⚠️  el server aceptó el borrado pero {base}/{rel} SIGUE existiendo")
+        else:
+            borrados += 1
+            print(f"  ✅ borrado y verificado  {base}/{rel}")
+
+    print(f"\n✅ {borrados} entradas borradas y verificadas, {fallidos} con problemas.")
+    if ausentes:
+        print(f"   ({len(ausentes)} de la lista ya no estaban en el server)")
 
 
 def is_immutable_asset(rel):
@@ -215,17 +411,23 @@ def cmd_upload(ftp, creds):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--creds", required=True)
-    ap.add_argument("action", choices=["list", "backup", "upload"])
+    # "wp-archive-DEPRECADO" en vez de "backup": el nombre viejo era corto y
+    # sonaba inofensivo justo para la acción más destructiva del script.
+    ap.add_argument(
+        "action", choices=["list", "upload", "prune", "wp-archive-DEPRECADO"]
+    )
     args = ap.parse_args()
     creds = load_creds(args.creds)
     ftp = connect(creds)
     try:
         if args.action == "list":
             cmd_list(ftp, creds)
-        elif args.action == "backup":
-            cmd_backup(ftp, creds)
-        else:
+        elif args.action == "upload":
             cmd_upload(ftp, creds)
+        elif args.action == "prune":
+            cmd_prune(ftp, creds)
+        else:
+            cmd_backup(ftp, creds)
     finally:
         try:
             ftp.quit()

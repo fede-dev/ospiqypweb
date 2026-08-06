@@ -19,11 +19,13 @@ const display = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+// Ojo: acá NO va `alternates.canonical`. La metadata del layout raíz la
+// heredan todas las páginas hijas, así que un canonical fijo en "/" hacía que
+// /institucional, /contacto, /prestadores y compañía se declararan duplicadas
+// del home. Cada página arma el suyo con `pageMetadata()` (src/lib/site.ts) y
+// el del home vive en src/app/page.tsx.
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  alternates: {
-    canonical: "/",
-  },
   title: {
     default: "OSPIQYP — Obra Social del Personal de Industrias Químicas y Petroquímicas",
     template: "%s | OSPIQYP",

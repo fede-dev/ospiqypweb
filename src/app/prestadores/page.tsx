@@ -6,12 +6,14 @@ import {
   type ProviderZone,
   type ProviderCategory,
 } from "@/content/providers";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/prestadores",
   title: "Prestadores",
   description:
     "Cartilla de prestadores de OSPIQYP: clínicas, sanatorios, centros de diagnóstico, odontología, farmacias y ópticas en CABA y zonas adyacentes. Buscá por zona y categoría.",
-};
+});
 
 export default function PrestadoresPage() {
   const zones = Array.from(new Set(PROVIDERS.map((p) => p.zone))) as ProviderZone[];

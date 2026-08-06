@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { MapPinIcon, PhoneIcon } from "@heroicons/react/24/outline";
 import { DELEGATIONS } from "@/content/delegations";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/delegaciones",
   title: "Delegaciones",
   description:
     "Más de 20 delegaciones de OSPIQYP en toda la Argentina. Encontrá la oficina más cercana a tu domicilio.",
-};
+});
 
 export default function DelegacionesPage() {
   // Agrupar por provincia

@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { NEWS } from "@/content/news";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/novedades",
   title: "Novedades",
   description:
     "Comunicados e información institucional de OSPIQYP para sus afiliados.",
-};
+});
 
 export default function NovedadesPage() {
   return (

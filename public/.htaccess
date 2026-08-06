@@ -4,6 +4,20 @@ DirectoryIndex index.html
 # Página de error 404 propia del sitio.
 ErrorDocument 404 /404.html
 
+# Redirecciones permanentes de rutas viejas.
+# /coberturas/pmo se mudó a /programa-medico-obligatorio. Antes vivía como una
+# page de Next con permanentRedirect(), pero eso NO funciona con output:"export":
+# el build generaba un HTML sin meta refresh que Apache servía con 200, o sea una
+# página en blanco e indexable. El redirect de verdad lo tiene que hacer Apache.
+# Ojo con el ORDEN: mod_alias compara Redirect por prefijo y gana el primero que
+# matchea, así que la variante CON barra final va primero. Al revés,
+# /coberturas/pmo/ matchearía la regla sin barra y el resto ("/") se pegaría al
+# destino: terminaría en /programa-medico-obligatorio// (doble barra).
+<IfModule mod_alias.c>
+  Redirect 301 /coberturas/pmo/ /programa-medico-obligatorio/
+  Redirect 301 /coberturas/pmo  /programa-medico-obligatorio/
+</IfModule>
+
 # Compresión de texto (mejora velocidad).
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml text/plain
@@ -18,4 +32,57 @@ ErrorDocument 404 /404.html
   ExpiresByType image/jpeg "access plus 30 days"
   ExpiresByType image/svg+xml "access plus 30 days"
   ExpiresByType image/webp "access plus 30 days"
+</IfModule>
+
+# Cabeceras de seguridad.
+# Usamos "always" para que salgan también en las respuestas de error (el 404
+# propio, por ejemplo), no sólo en los 200.
+<IfModule mod_headers.c>
+  # Que el navegador no adivine el tipo de contenido y respete el Content-Type
+  # que manda Apache.
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Al salir del sitio mandamos sólo el origen (no la URL completa), y nada si
+  # el destino es http:// plano.
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Que nadie pueda meter el sitio dentro de un iframe ajeno (clickjacking).
+  # Lo mismo dice frame-ancestors en la CSP de abajo; esta queda para los
+  # navegadores viejos que no leen CSP.
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # El sitio no usa cámara, micrófono ni ubicación: se los negamos a todos.
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+  # HSTS: obliga al navegador a usar HTTPS durante max-age segundos.
+  # ARRANCA CORTO A PROPÓSITO (300 s = 5 minutos). Si algo sale mal —un
+  # certificado que no renueva, un servicio que queda sólo por http— el daño se
+  # borra solo en 5 minutos, en vez de dejar afiliados sin poder entrar durante
+  # un año. Subir a max-age=31536000 (1 año) recién DESPUÉS de una semana entera
+  # sin incidentes.
+  # SIN includeSubDomains: hay servicios en subdominios que hoy no tienen HTTPS
+  # y quedarían inaccesibles de una.
+  # SIN preload, y no agregarlo nunca a la ligera: preload no lo aplica el
+  # servidor, lo hornean los navegadores en su propio binario. Sacarse de esa
+  # lista tarda MESES y no hay nada que podamos hacer desde acá para revertirlo.
+  # Es la única cabecera de este archivo que no se deshace borrando una línea.
+  Header always set Strict-Transport-Security "max-age=300"
+
+  # CSP mínima y deliberadamente acotada a cuatro directivas.
+  # NO lleva script-src A PROPÓSITO: Next inlinea sus scripts de bootstrap e
+  # hidratación y, al ser un export estático sin servidor, no hay forma de
+  # generar un nonce por request. Una CSP "estricta" acá terminaría obligando a
+  # 'unsafe-inline' (que no protege de nada y sólo da falsa sensación de
+  # seguridad) o directamente rompería la hidratación y dejaría el sitio muerto
+  # para el afiliado. Preferimos cuatro directivas que sí sirven y no arriesgan
+  # nada.
+  #
+  # NO AGREGAR upgrade-insecure-requests NI block-all-mixed-content.
+  # El footer y /coberturas linkean a http://osocial.homelinux.org:48888/ y a
+  # http://osocial2.homelinux.org (webmail y acceso del interior). Esos hosts NO
+  # responden por HTTPS: el puerto 443 da timeout. Cualquiera de esas dos
+  # directivas reescribiría o bloquearía esos pedidos y dejaría a las
+  # delegaciones del interior sin acceso y a todos sin webmail. Recién se pueden
+  # evaluar cuando esos dos servidores tengan certificado propio.
+  Header always set Content-Security-Policy "frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'"
 </IfModule>

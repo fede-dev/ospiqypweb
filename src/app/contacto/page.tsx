@@ -14,12 +14,14 @@ import {
 } from "@/content/contact";
 import { PhoneLink } from "@/components/shared/PhoneLink";
 import { EmailLink } from "@/components/shared/EmailLink";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/contacto",
   title: "Contacto",
   description:
     "Comunicate con OSPIQYP. Teléfonos, emails, dirección y horarios de atención.",
-};
+});
 
 export default function ContactoPage() {
   return (

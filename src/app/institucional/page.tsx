@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { BuildingOffice2Icon, EnvelopeIcon } from "@heroicons/react/24/outline";
 import { LEADERSHIP } from "@/content/leadership";
 import { ADDRESS } from "@/content/contact";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/institucional",
   title: "Institucional",
   description:
     "Conocé OSPIQYP — Obra Social del Personal de Industrias Químicas y Petroquímicas. Nuestra historia, misión y comisión directiva.",
-};
+});
 
 export default function InstitucionalPage() {
   return (

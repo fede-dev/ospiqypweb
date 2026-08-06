@@ -12,12 +12,14 @@ import {
   COPAYS_INTRO,
   COPAYS_FOOTNOTE,
 } from "@/content/copays";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/coberturas",
   title: "Coberturas",
   description:
     "Conocé todas las coberturas de OSPIQYP: PMO, odontología, discapacidad, ópticas, farmacia y más. Cobertura integral en toda la Argentina.",
-};
+});
 
 export default function CoberturasPage() {
   return (

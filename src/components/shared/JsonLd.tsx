@@ -37,7 +37,29 @@ export function OrganizationJsonLd() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
     />
   );
+}
+
+/**
+ * Serializa a JSON escapando lo que rompe un <script> embebido.
+ *
+ * `JSON.stringify` no escapa nada de esto, así que un `</script>` dentro de
+ * cualquier valor cierra la etiqueta antes de tiempo y lo que sigue se
+ * interpreta como HTML. Hoy los datos salen de `src/content/contact.ts` (fijos,
+ * escritos por nosotros) y no hay nada explotable, pero es un componente que se
+ * copia y pega para agregar otros bloques de datos estructurados: si mañana uno
+ * toma un dato editable, el agujero ya está puesto. Se escapa acá y listo.
+ *
+ * U+2028 y U+2029 van por otro motivo: son saltos de línea válidos en JSON pero
+ * ilegales dentro de un literal de JavaScript, y rompen el parseo.
+ */
+function serializeJsonLd(data: unknown): string {
+  return JSON.stringify(data)
+    .replace(/</g, "\\u003c")
+    .replace(/>/g, "\\u003e")
+    .replace(/&/g, "\\u0026")
+    .replace(/\u2028/g, "\\u2028")
+    .replace(/\u2029/g, "\\u2029");
 }

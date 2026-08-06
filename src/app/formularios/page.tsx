@@ -6,12 +6,14 @@ import {
   type DownloadForm,
   type FormCategory,
 } from "@/content/forms";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/formularios",
   title: "Formularios",
   description:
     "Descargá los formularios y documentos de OSPIQYP: afiliación, programas de crónicos, discapacidad y empresas. Todos en formato PDF.",
-};
+});
 
 export default function FormulariosPage() {
   // Agrupar los formularios por categoría, respetando el orden de las etiquetas.

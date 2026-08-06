@@ -71,7 +71,7 @@ export const SERVICES: Service[] = [
     id: "pmo",
     title: "Programa Médico Obligatorio",
     description: "Todas las prestaciones del PMO con red nacional de profesionales.",
-    href: "/coberturas/pmo",
+    href: "/programa-medico-obligatorio",
     iconName: "shield-check",
   },
   {

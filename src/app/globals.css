@@ -36,7 +36,12 @@
   --color-bg-soft: #f5f5f5;
   --color-fg: #1a1a1a;
   --color-fg-soft: #555555;
-  --color-fg-muted: #888888;
+  /* #888888 daba 3.54:1 sobre blanco y no llegaba al 4.5:1 que pide WCAG AA
+     para texto normal; se usa en text-xs/text-sm (matrículas, notas, conteos),
+     así que no calificaba como "texto grande". El umbral exacto es #767676
+     (4.54:1); elegimos #6b6b6b (5.33:1) para tener margen, porque el público
+     del sitio es en buena parte gente mayor. */
+  --color-fg-muted: #6b6b6b;
   --color-border: #e0e0e0;
 
   /* Fonts — configuradas via next/font en layout.tsx */

@@ -1,0 +1,33 @@
+# Rutas a borrar del hosting con:
+#     python3 scripts/deploy_cpanel.py --creds ~/.ospiqyp_deploy prune
+#
+# Formato: una ruta por línea, RELATIVA a CP_DIR (public_html).
+#   - Las líneas vacías y las que empiezan con # se ignoran.
+#   - Sin barra final = archivo, se borra con DELETE.
+#   - Con barra final = directorio, se borra con RMD y sólo si quedó vacío
+#     (por eso los archivos de adentro van listados ANTES que el directorio).
+#   - Nada de rutas absolutas, '..' ni comodines: el script las rechaza.
+#
+# El deploy sube out/ pero nunca borra: lo que se sacó del repo sigue vivo en el
+# server hasta que se lo liste acá. Las rutas ya borradas se dejan escritas como
+# registro de qué se sacó; prune las reporta como "ausente" y sigue de largo.
+
+# --- 2026-08-06: peso muerto sacado del repo (originales archivados fuera de git) ---
+# Los PNG del hero quedaron obsoletos al pasar a WebP (Hero.tsx sirve sólo .webp).
+images/banners/hero-fondo.png
+images/banners/hero-fondo-mobile.png
+# Nunca se llegaron a usar en ninguna página: quedaron de la tanda de generación.
+images/banners/hero-principal.png
+images/banners/coberturas.png
+images/banners/social-cuadrado.png
+
+# Copia con el nombre original del archivo que mandó la obra social; byte a byte
+# idéntica a resumen-cartilla-2026.pdf, que es la que efectivamente se enlaza.
+pdfs/cartilla 2026 6 (resumen).pdf
+
+# Boilerplate de create-next-app: ninguna página los referencia.
+next.svg
+vercel.svg
+globe.svg
+window.svg
+file.svg

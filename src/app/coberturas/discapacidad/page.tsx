@@ -12,12 +12,14 @@ import {
   ArrowDownTrayIcon,
 } from "@heroicons/react/24/outline";
 import { FORMS } from "@/content/forms";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/coberturas/discapacidad",
   title: "Programa Discapacidad",
   description:
     "Información para afiliados y prestadores del Programa de Discapacidad de OSPIQYP: requisitos, plazos de autorización, presentación de expedientes, fechas de liquidación y contactos.",
-};
+});
 
 const REQUISITOS = [
   "El CUD (Certificado Único de Discapacidad) debe estar vigente según ANDIS (Agencia Nacional de Discapacidad).",

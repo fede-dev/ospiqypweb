@@ -15,12 +15,14 @@ import {
   PMO_CATALOGO_CATEGORIAS,
   CATALOGO_INTRO,
 } from "@/content/pmo-catalogo";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/programa-medico-obligatorio",
   title: "Programa Médico Obligatorio (PMO)",
   description:
     "Programa Médico Obligatorio (PMO/PMOE) de OSPIQYP: prestaciones esenciales por subsección (atención primaria, plan materno infantil, internación, salud mental, medicamentos y más), catálogo de prácticas buscable y normativa de referencia.",
-};
+});
 
 function Blocks({ blocks }: { blocks: PmoBlock[] }) {
   return (
