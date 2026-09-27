@@ -18,7 +18,11 @@ export const SITE_TITLE = `${SITE_NAME} — ${SITE_LEGAL_NAME}`;
  * (Next NO hace merge profundo de openGraph: lo pisa entero), así que cada
  * página tiene que volver a declararla o el preview queda sin imagen.
  */
-export const OG_IMAGE = { url: "/images/logo.png", alt: SITE_NAME };
+export const SITE_LOGO = "/images/logo.png";
+
+// Hoy la imagen de compartir es el logo, pero son dos cosas: si mañana se hace
+// una imagen apaisada para WhatsApp, cambia OG_IMAGE y el logo queda.
+const OG_IMAGE = { url: SITE_LOGO, alt: SITE_NAME };
 
 /** Lo que todo bloque openGraph comparte: lo usan el layout raíz y `pageMetadata`. */
 export const OPEN_GRAPH_BASE = {
