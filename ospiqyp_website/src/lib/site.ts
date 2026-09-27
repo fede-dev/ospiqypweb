@@ -8,8 +8,9 @@ export const SITE_URL = "https://www.ospiqyp.org.ar";
 
 export const SITE_NAME = "OSPIQYP";
 
-export const SITE_TITLE =
-  "OSPIQYP — Obra Social del Personal de Industrias Químicas y Petroquímicas";
+export const SITE_LEGAL_NAME = "Obra Social del Personal de Industrias Químicas y Petroquímicas";
+
+export const SITE_TITLE = `${SITE_NAME} — ${SITE_LEGAL_NAME}`;
 
 /**
  * Imagen que se muestra al compartir cualquier página en redes/WhatsApp.

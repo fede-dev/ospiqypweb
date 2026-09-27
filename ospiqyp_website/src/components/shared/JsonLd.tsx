@@ -1,5 +1,5 @@
 import { ADDRESS, MAIN_PHONES, GENERAL_EMAIL } from "@/content/contact";
-import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/site";
+import { OG_IMAGE, SITE_LEGAL_NAME, SITE_NAME, SITE_URL } from "@/lib/site";
 
 /**
  * Schema.org JSON-LD para OSPIQYP. Tipo MedicalOrganization + LocalBusiness.
@@ -10,8 +10,7 @@ export function OrganizationJsonLd() {
     "@context": "https://schema.org",
     "@type": ["MedicalOrganization", "LocalBusiness"],
     name: SITE_NAME,
-    legalName:
-      "Obra Social del Personal de Industrias Químicas y Petroquímicas",
+    legalName: SITE_LEGAL_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}${OG_IMAGE.url}`,
     email: GENERAL_EMAIL,

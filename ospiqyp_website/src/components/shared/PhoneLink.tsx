@@ -6,7 +6,6 @@ interface PhoneLinkProps {
   tel: string;
   label?: string;
   size?: "md" | "lg";
-  className?: string;
 }
 
 /**
@@ -14,7 +13,7 @@ interface PhoneLinkProps {
  * - Tamaño ≥24px en versión lg (target accesibilidad para mayores).
  * - aria-label expone número completo legible por screen readers.
  */
-export function PhoneLink({ number, tel, label, size = "md", className }: PhoneLinkProps) {
+export function PhoneLink({ number, tel, label, size = "md" }: PhoneLinkProps) {
   const sizeClasses = {
     md: "text-lg gap-2.5",
     lg: "text-2xl md:text-3xl gap-3 font-semibold",
@@ -28,7 +27,6 @@ export function PhoneLink({ number, tel, label, size = "md", className }: PhoneL
         "inline-flex items-center transition-colors no-underline",
         sizeClasses[size],
         "text-brand-700 hover:text-brand-800",
-        className,
       )}
     >
       <PhoneIcon className={cn(size === "lg" ? "size-6" : "size-5")} aria-hidden="true" />
