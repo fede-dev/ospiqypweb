@@ -7,13 +7,13 @@ import {
 import {
   ADDRESS,
   MAIN_PHONES,
-  SPECIALIZED_PHONES,
   EMERGENCY_PHONES,
   EMAILS,
   SERVICE_CONTACTS,
 } from "@/content/contact";
 import { PhoneLink } from "@/components/shared/PhoneLink";
 import { EmailLink } from "@/components/shared/EmailLink";
+import { SpecializedPhoneList } from "@/components/shared/SpecializedPhoneList";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { pageMetadata } from "@/lib/site";
 
@@ -104,24 +104,7 @@ export default function ContactoPage() {
           {/* Líneas especializadas (con email del área si existe) */}
           <div className="p-6 bg-white border border-[color:var(--color-border)] rounded-xl">
             <h2 className="text-xl font-bold mb-4">Atención especializada</h2>
-            <ul className="space-y-5">
-              {SPECIALIZED_PHONES.map((p) => (
-                <li
-                  key={p.tel}
-                  className="pb-4 border-b border-[color:var(--color-border)] last:border-b-0 last:pb-0"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                    <span className="font-medium">{p.label}</span>
-                    <PhoneLink number={p.number} tel={p.tel} label={p.label} size="md" />
-                  </div>
-                  {p.email && (
-                    <div className="mt-1.5">
-                      <EmailLink email={p.email} label={p.label} />
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
+            <SpecializedPhoneList />
           </div>
 
           {/* Emails */}

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import { MAIN_PHONES, SPECIALIZED_PHONES } from "@/content/contact";
+import { MAIN_PHONES } from "@/content/contact";
 import { PhoneLink } from "@/components/shared/PhoneLink";
-import { EmailLink } from "@/components/shared/EmailLink";
+import { SpecializedPhoneList } from "@/components/shared/SpecializedPhoneList";
 
 export function QuickContact() {
   return (
@@ -42,24 +42,7 @@ export function QuickContact() {
           {/* Líneas especializadas (con email opcional debajo del tel) */}
           <div className="bg-white p-6 md:p-8 rounded-xl border border-[color:var(--color-border)] shadow-sm">
             <h3 className="text-xl font-semibold mb-6">Atención especializada</h3>
-            <ul className="space-y-5">
-              {SPECIALIZED_PHONES.map((p) => (
-                <li
-                  key={p.tel}
-                  className="pb-4 border-b border-[color:var(--color-border)] last:border-b-0 last:pb-0"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                    <span className="font-medium">{p.label}</span>
-                    <PhoneLink number={p.number} tel={p.tel} label={p.label} size="md" />
-                  </div>
-                  {p.email && (
-                    <div className="mt-1 text-sm">
-                      <EmailLink email={p.email} label={p.label} className="text-xs" />
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
+            <SpecializedPhoneList />
           </div>
         </div>
       </div>
