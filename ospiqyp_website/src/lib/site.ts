@@ -8,13 +8,24 @@ export const SITE_URL = "https://www.ospiqyp.org.ar";
 
 export const SITE_NAME = "OSPIQYP";
 
+export const SITE_TITLE =
+  "OSPIQYP — Obra Social del Personal de Industrias Químicas y Petroquímicas";
+
 /**
  * Imagen que se muestra al compartir cualquier página en redes/WhatsApp.
  * Vive acá porque `pageMetadata` reemplaza el bloque `openGraph` del layout
  * (Next NO hace merge profundo de openGraph: lo pisa entero), así que cada
  * página tiene que volver a declararla o el preview queda sin imagen.
  */
-const OG_IMAGE = { url: "/images/logo.png", alt: SITE_NAME };
+export const OG_IMAGE = { url: "/images/logo.png", alt: SITE_NAME };
+
+/** Lo que todo bloque openGraph comparte: lo usan el layout raíz y `pageMetadata`. */
+export const OPEN_GRAPH_BASE = {
+  type: "website" as const,
+  locale: "es_AR",
+  siteName: SITE_NAME,
+  images: [OG_IMAGE],
+};
 
 /**
  * Devuelve la URL absoluta canónica de una ruta, SIEMPRE con barra final.
@@ -61,10 +72,7 @@ export function pageMetadata({ path, title, description }: PageMetadataInput): M
     ...(description ? { description } : {}),
     alternates: { canonical: url },
     openGraph: {
-      type: "website",
-      locale: "es_AR",
-      siteName: SITE_NAME,
-      images: [OG_IMAGE],
+      ...OPEN_GRAPH_BASE,
       url,
       // title y description del openGraph los completa Next con los de la
       // página (o los del layout, si acá no se pasaron): no los repetimos.

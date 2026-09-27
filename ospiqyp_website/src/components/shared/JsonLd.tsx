@@ -1,4 +1,5 @@
-import { ADDRESS, MAIN_PHONES, EMAILS } from "@/content/contact";
+import { ADDRESS, MAIN_PHONES, GENERAL_EMAIL } from "@/content/contact";
+import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/site";
 
 /**
  * Schema.org JSON-LD para OSPIQYP. Tipo MedicalOrganization + LocalBusiness.
@@ -8,12 +9,12 @@ export function OrganizationJsonLd() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": ["MedicalOrganization", "LocalBusiness"],
-    name: "OSPIQYP",
+    name: SITE_NAME,
     legalName:
       "Obra Social del Personal de Industrias Químicas y Petroquímicas",
-    url: "https://www.ospiqyp.org.ar",
-    logo: "https://www.ospiqyp.org.ar/images/logo.png",
-    email: EMAILS[0].email,
+    url: SITE_URL,
+    logo: `${SITE_URL}${OG_IMAGE.url}`,
+    email: GENERAL_EMAIL,
     telephone: MAIN_PHONES.map((p) => p.tel),
     address: {
       "@type": "PostalAddress",
@@ -25,8 +26,8 @@ export function OrganizationJsonLd() {
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "09:00",
-      closes: "17:00",
+      opens: ADDRESS.opens,
+      closes: ADDRESS.closes,
     },
     areaServed: {
       "@type": "Country",

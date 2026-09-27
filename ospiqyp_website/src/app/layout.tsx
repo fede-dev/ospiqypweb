@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { EmergencyBanner } from "@/components/layout/EmergencyBanner";
 import { OrganizationJsonLd } from "@/components/shared/JsonLd";
-import { SITE_URL } from "@/lib/site";
+import { OPEN_GRAPH_BASE, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -27,8 +27,8 @@ const display = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "OSPIQYP — Obra Social del Personal de Industrias Químicas y Petroquímicas",
-    template: "%s | OSPIQYP",
+    default: SITE_TITLE,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
     "Obra Social del Personal de Industrias Químicas y Petroquímicas. Cobertura médica, odontología, discapacidad, ópticas, farmacia y red nacional de prestadores.",
@@ -42,19 +42,11 @@ export const metadata: Metadata = {
     "Argentina",
   ],
   openGraph: {
-    type: "website",
-    locale: "es_AR",
-    siteName: "OSPIQYP",
-    title: "OSPIQYP — Obra Social del Personal de Industrias Químicas y Petroquímicas",
+    ...OPEN_GRAPH_BASE,
+    title: SITE_TITLE,
     description:
       "Cobertura médica integral, red nacional de prestadores y atención personalizada para vos y tu familia.",
     url: "/",
-    images: [
-      {
-        url: "/images/logo.png",
-        alt: "OSPIQYP",
-      },
-    ],
   },
   robots: {
     index: true,
