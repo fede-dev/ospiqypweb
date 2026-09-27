@@ -182,9 +182,9 @@ describe("teléfonos", () => {
    *  - sólo dígitos, espacios, guiones, paréntesis, barras y "+";
    *  - el primer número (antes de la "/") tiene al menos 6 dígitos.
    *
-   * El porqué del segundo punto: ProvidersTable arma el `tel:` con
-   * `p.phone.replace(/[^\d+]/g,"").split("/")[0]`, o sea que marca el PRIMER
-   * número. Si ese primero quedó incompleto, el link llama a la nada.
+   * El porqué del segundo punto: el link para llamar lo arma `telHref`
+   * (src/lib/phone.ts) con el PRIMER número, el que va antes de la "/".
+   * Si ese primero quedó incompleto, el link llama a la nada.
    */
   const CARACTERES_PERMITIDOS = /^[0-9()\-/+ .]+$/;
 

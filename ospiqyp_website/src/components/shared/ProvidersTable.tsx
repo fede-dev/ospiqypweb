@@ -7,6 +7,7 @@ import { LoadMoreButton } from "@/components/shared/filters/LoadMoreButton";
 import { ResultCount } from "@/components/shared/filters/ResultCount";
 import { SearchInput } from "@/components/shared/filters/SearchInput";
 import { useFilteredList } from "@/components/shared/filters/useFilteredList";
+import { telHref } from "@/lib/phone";
 import type {
   Provider,
   ProviderCategory,
@@ -120,7 +121,7 @@ export function ProvidersTable({ items, zones, categories }: ProvidersTableProps
               )}
               {p.phone && (
                 <a
-                  href={`tel:${p.phone.replace(/[^\d+]/g, "").split("/")[0]}`}
+                  href={telHref(p.phone)}
                   className="mt-1 inline-flex items-center gap-1.5 text-sm text-brand-700 hover:underline"
                 >
                   <PhoneIcon className="size-4 flex-shrink-0" aria-hidden="true" />

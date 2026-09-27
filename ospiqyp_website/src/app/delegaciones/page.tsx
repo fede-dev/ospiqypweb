@@ -3,6 +3,7 @@ import { MapPinIcon, PhoneIcon } from "@heroicons/react/24/outline";
 import { DELEGATIONS } from "@/content/delegations";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { pageMetadata } from "@/lib/site";
+import { telHref } from "@/lib/phone";
 
 export const metadata: Metadata = pageMetadata({
   path: "/delegaciones",
@@ -49,7 +50,7 @@ export default function DelegacionesPage() {
                   )}
                   {d.phone && (
                     <a
-                      href={`tel:${d.phone.replace(/\D/g, "")}`}
+                      href={telHref(d.phone)}
                       className="inline-flex items-center gap-2 text-sm text-brand-700 hover:underline ml-7"
                     >
                       <PhoneIcon className="size-4" aria-hidden="true" />
