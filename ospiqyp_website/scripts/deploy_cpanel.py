@@ -85,20 +85,16 @@ class PatientFTP_TLS(ftplib.FTP_TLS):
 
 def connect(creds):
     host, user, pw = creds["CP_HOST"], creds["CP_USER"], creds["CP_PASS"]
-    # Intentar FTPS (TLS explícito) primero; si el server no lo soporta, FTP plano.
+    # Sólo FTPS. Si falla, se corta: antes se caía a FTP plano y un problema
+    # pasajero de TLS terminaba mandando la contraseña sin cifrar.
     try:
         ftp = PatientFTP_TLS()
         ftp.connect(host, 21, timeout=60)
         ftp.login(user, pw)
         ftp.prot_p()
-        print(f"Conectado por FTPS (cifrado) a {host} como {user}")
-        return ftp
-    except Exception as e:
-        print(f"FTPS no disponible ({type(e).__name__}); probando FTP plano...")
-    ftp = ftplib.FTP()
-    ftp.connect(host, 21, timeout=60)
-    ftp.login(user, pw)
-    print(f"Conectado por FTP a {host} como {user}")
+    except ftplib.all_errors as e:
+        sys.exit(f"No se pudo conectar por FTPS a {host}: {type(e).__name__}: {e}")
+    print(f"Conectado por FTPS (cifrado) a {host} como {user}")
     return ftp
 
 
@@ -372,14 +368,12 @@ def cmd_upload(ftp, creds):
             files.append(os.path.join(root, n))
     total = len(files)
     print(f"\nSubiendo {total} archivos a {base}/ ...")
-    made = set()
     skipped = 0
     for i, local_path in enumerate(sorted(files), 1):
         rel = os.path.relpath(local_path, LOCAL_DIR)
         remote_dir = base + "/" + os.path.dirname(rel).replace(os.sep, "/")
         remote_dir = remote_dir.rstrip("/")
         ensure_dir(ftp, remote_dir)
-        made.add(remote_dir)
         leaf = os.path.basename(rel)
         local_size = os.path.getsize(local_path)
         # Reanudación por tamaño: SÓLO para assets inmutables de /_next/static/,
