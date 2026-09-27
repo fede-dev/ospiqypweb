@@ -2,7 +2,6 @@
 
 import * as RadixAccordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { cn } from "@/lib/cn";
 
 export type AccordionItemData = {
   id: string;
@@ -12,24 +11,19 @@ export type AccordionItemData = {
 
 interface AccordionProps {
   items: AccordionItemData[];
-  /** Permitir varios abiertos a la vez (default: uno solo). */
-  multiple?: boolean;
-  className?: string;
 }
 
 /**
- * Acordeón accesible (Radix) para secciones desplegables/toggles.
- * Usado en Coberturas, Prestadores, Farmacias y Ópticas.
+ * Acordeón accesible (Radix) con varios ítems abiertos a la vez. Lo usa la
+ * normativa del PMO; cada ítem lleva `id` para poder enlazarlo con `#`.
  */
-export function Accordion({ items, multiple = false, className }: AccordionProps) {
-  const common = {
-    className: cn(
-      "divide-y divide-[color:var(--color-border)] rounded-xl border border-[color:var(--color-border)] bg-white overflow-hidden",
-      className,
-    ),
-  };
-
-  const renderItems = items.map((item) => (
+export function Accordion({ items }: AccordionProps) {
+  return (
+    <RadixAccordion.Root
+      type="multiple"
+      className="divide-y divide-[color:var(--color-border)] rounded-xl border border-[color:var(--color-border)] bg-white overflow-hidden"
+    >
+      {items.map((item) => (
     <RadixAccordion.Item
       key={item.id}
       value={item.id}
@@ -51,15 +45,7 @@ export function Accordion({ items, multiple = false, className }: AccordionProps
         </div>
       </RadixAccordion.Content>
     </RadixAccordion.Item>
-  ));
-
-  return multiple ? (
-    <RadixAccordion.Root type="multiple" {...common}>
-      {renderItems}
-    </RadixAccordion.Root>
-  ) : (
-    <RadixAccordion.Root type="single" collapsible {...common}>
-      {renderItems}
+      ))}
     </RadixAccordion.Root>
   );
 }

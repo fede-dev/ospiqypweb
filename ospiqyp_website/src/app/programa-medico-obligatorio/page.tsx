@@ -172,7 +172,7 @@ export default function ProgramaMedicoObligatorioPage() {
         <p className="max-w-3xl text-[color:var(--color-fg-soft)] mb-6 leading-relaxed">
           {PMO_NORMATIVA_INTRO}
         </p>
-        <Accordion items={normativaItems} multiple />
+        <Accordion items={normativaItems} />
       </section>
 
       {/* Volver a Coberturas */}
