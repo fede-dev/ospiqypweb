@@ -12,16 +12,18 @@ export const SITE_LEGAL_NAME = "Obra Social del Personal de Industrias Químicas
 
 export const SITE_TITLE = `${SITE_NAME} — ${SITE_LEGAL_NAME}`;
 
+/** Logo de la organización: el que leen los datos estructurados de Google. */
+export const SITE_LOGO = "/images/logo.png";
+
 /**
  * Imagen que se muestra al compartir cualquier página en redes/WhatsApp.
  * Vive acá porque `pageMetadata` reemplaza el bloque `openGraph` del layout
  * (Next NO hace merge profundo de openGraph: lo pisa entero), así que cada
  * página tiene que volver a declararla o el preview queda sin imagen.
+ *
+ * Hoy es el logo, pero son dos cosas: si mañana se hace una imagen apaisada
+ * para WhatsApp, cambia esto y el logo queda.
  */
-export const SITE_LOGO = "/images/logo.png";
-
-// Hoy la imagen de compartir es el logo, pero son dos cosas: si mañana se hace
-// una imagen apaisada para WhatsApp, cambia OG_IMAGE y el logo queda.
 const OG_IMAGE = { url: SITE_LOGO, alt: SITE_NAME };
 
 /** Lo que todo bloque openGraph comparte: lo usan el layout raíz y `pageMetadata`. */
