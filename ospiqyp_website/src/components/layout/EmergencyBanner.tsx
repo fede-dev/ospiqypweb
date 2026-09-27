@@ -6,7 +6,7 @@ import { EMERGENCY_PHONES } from "@/content/contact";
  * Siempre visible, color rojo, contraste AAA para usuarios mayores.
  */
 export function EmergencyBanner() {
-  const primary = EMERGENCY_PHONES[0];
+  const [primary, secondary] = EMERGENCY_PHONES;
 
   return (
     <div className="bg-alert-600 text-white" role="alert" aria-label="Emergencias 24/7">
@@ -22,11 +22,11 @@ export function EmergencyBanner() {
         </a>
         <span className="hidden sm:inline opacity-80">/</span>
         <a
-          href={`tel:${EMERGENCY_PHONES[1].tel}`}
+          href={`tel:${secondary.tel}`}
           className="font-bold underline underline-offset-2 hover:no-underline hidden sm:inline"
-          aria-label={`Llamar a emergencias 24/7 al ${EMERGENCY_PHONES[1].number}`}
+          aria-label={`Llamar a emergencias 24/7 al ${secondary.number}`}
         >
-          {EMERGENCY_PHONES[1].number}
+          {secondary.number}
         </a>
       </div>
     </div>

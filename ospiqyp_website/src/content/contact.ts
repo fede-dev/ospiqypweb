@@ -9,7 +9,6 @@ export type PhoneLine = {
   number: string;
   tel: string; // formato tel: para link
   email?: string; // mail asociado al área (si existe)
-  highlight?: boolean; // emergencia 24/7
 };
 
 export type EmailLine = {
@@ -23,10 +22,33 @@ export const ADDRESS = {
   postalCode: "C1097",
   country: "Argentina",
   hours: "Lunes a viernes, 9 a 17 hs",
+  // Lo mismo que `hours`, en el formato que leen los datos estructurados de
+  // Google (JsonLd). Si cambia el horario, cambian los tres.
+  opens: "09:00",
+  closes: "17:00",
+};
+
+/**
+ * Los mails y teléfonos que alguna página usa por su cuenta tienen nombre:
+ * ninguna página escribe un mail o un número a mano, y nadie depende de la
+ * posición dentro de una lista.
+ */
+export const GENERAL_EMAIL = "info@ospiqyp.org.ar";
+export const AFFILIATIONS_EMAIL = "afiliaciones@ospiqyp.org.ar";
+export const AUTHORIZATIONS_EMAIL = "autorizaciones@ospiqyp.org.ar";
+export const COMPANY_ENROLLMENT_EMAIL = "liquidaciones.cob@ospiqyp.org.ar";
+export const MEDICATION_EMAIL = "medicacionospiqyp@gmail.com";
+const DISABILITY_EMAIL = "ospiqyp.discapacidad@gmail.com";
+const MEDICAL_AUDIT_EMAIL = "auditoria@ospiqyp.org.ar";
+
+export const MAIN_PHONE: PhoneLine = {
+  label: "Línea principal",
+  number: "(011) 5275-2200",
+  tel: "+541152752200",
 };
 
 export const MAIN_PHONES: PhoneLine[] = [
-  { label: "Línea principal", number: "(011) 5275-2200", tel: "+541152752200" },
+  MAIN_PHONE,
   { label: "Sede Central", number: "(011) 5275-2270", tel: "+541152752270" },
 ];
 
@@ -40,31 +62,31 @@ export const SPECIALIZED_PHONES: PhoneLine[] = [
     label: "Afiliaciones",
     number: "(011) 5272-5046",
     tel: "+541152725046",
-    email: "afiliaciones@ospiqyp.org.ar",
+    email: AFFILIATIONS_EMAIL,
   },
   {
     label: "Autorizaciones",
     number: "(011) 5272-5044",
     tel: "+541152725044",
-    email: "autorizaciones@ospiqyp.org.ar",
+    email: AUTHORIZATIONS_EMAIL,
   },
   {
     label: "Discapacidad",
     number: "(011) 5272-5040",
     tel: "+541152725040",
-    email: "ospiqyp.discapacidad@gmail.com",
+    email: DISABILITY_EMAIL,
   },
   {
     label: "Medicación",
     number: "(011) 5272-5045",
     tel: "+541152725045",
-    email: "medicacionospiqyp@gmail.com",
+    email: MEDICATION_EMAIL,
   },
   {
     label: "Auditoría Médica",
     number: "(011) 5272-5049",
     tel: "+541152725049",
-    email: "auditoria@ospiqyp.org.ar",
+    email: MEDICAL_AUDIT_EMAIL,
   },
 ];
 
@@ -106,21 +128,22 @@ export const EMERGENCY_PHONES: PhoneLine[] = [
     label: "Emergencias 24/7",
     number: "0810-888-3226",
     tel: "+5408108883226",
-    highlight: true,
   },
   {
     label: "Emergencias 24/7",
     number: "0800-333-2732",
     tel: "+5408003332732",
-    highlight: true,
   },
 ];
 
 export const EMAILS: EmailLine[] = [
-  { label: "General", email: "info@ospiqyp.org.ar" },
-  { label: "Afiliaciones", email: "afiliaciones@ospiqyp.org.ar" },
-  { label: "Autorizaciones", email: "autorizaciones@ospiqyp.org.ar" },
-  { label: "Liquidaciones", email: "liquidaciones.cob@ospiqyp.org.ar" },
-  { label: "Farmacia / Medicación", email: "medicacionospiqyp@gmail.com" },
-  { label: "Discapacidad", email: "ospiqyp.discapacidad@gmail.com" },
+  { label: "General", email: GENERAL_EMAIL },
+  { label: "Afiliaciones", email: AFFILIATIONS_EMAIL },
+  { label: "Autorizaciones", email: AUTHORIZATIONS_EMAIL },
+  { label: "Liquidaciones", email: COMPANY_ENROLLMENT_EMAIL },
+  { label: "Farmacia / Medicación", email: MEDICATION_EMAIL },
+  { label: "Discapacidad", email: DISABILITY_EMAIL },
 ];
+
+/** Los dos que se muestran al pie de todas las páginas. */
+export const FOOTER_EMAILS = [GENERAL_EMAIL, AFFILIATIONS_EMAIL];

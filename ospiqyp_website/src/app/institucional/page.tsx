@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { BuildingOffice2Icon, EnvelopeIcon } from "@heroicons/react/24/outline";
 import { LEADERSHIP } from "@/content/leadership";
-import { ADDRESS } from "@/content/contact";
+import { ADDRESS, COMPANY_ENROLLMENT_EMAIL } from "@/content/contact";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { pageMetadata } from "@/lib/site";
 
@@ -65,11 +65,11 @@ export default function InstitucionalPage() {
             Inscripción de empresas
           </div>
           <a
-            href="mailto:liquidaciones.cob@ospiqyp.org.ar"
+            href={`mailto:${COMPANY_ENROLLMENT_EMAIL}`}
             className="inline-flex items-center gap-2 text-lg font-semibold text-brand-700 hover:underline"
           >
             <EnvelopeIcon className="size-5 flex-shrink-0" aria-hidden="true" />
-            liquidaciones.cob@ospiqyp.org.ar
+            {COMPANY_ENROLLMENT_EMAIL}
           </a>
         </div>
         <p className="mt-6 text-sm text-[color:var(--color-fg-soft)]">

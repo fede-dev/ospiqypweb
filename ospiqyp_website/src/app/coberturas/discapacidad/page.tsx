@@ -12,6 +12,12 @@ import {
   ArrowDownTrayIcon,
 } from "@heroicons/react/24/outline";
 import { FORMS } from "@/content/forms";
+import {
+  AFFILIATIONS_EMAIL,
+  AUTHORIZATIONS_EMAIL,
+  MAIN_PHONE,
+  MEDICATION_EMAIL,
+} from "@/content/contact";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { pageMetadata } from "@/lib/site";
 
@@ -60,10 +66,10 @@ export default function DiscapacidadPage() {
           <p className="text-sm text-[color:var(--color-fg-soft)]">
             Solicitalo por mail a{" "}
             <a
-              href="mailto:autorizaciones@ospiqyp.org.ar"
+              href={`mailto:${AUTHORIZATIONS_EMAIL}`}
               className="font-semibold text-brand-700 hover:underline"
             >
-              autorizaciones@ospiqyp.org.ar
+              {AUTHORIZATIONS_EMAIL}
             </a>
             . El instructivo actualizado aún no está publicado en la web.
           </p>
@@ -123,8 +129,8 @@ export default function DiscapacidadPage() {
               <p className="text-sm font-semibold uppercase tracking-wide text-[color:var(--color-fg-muted)]">
                 Teléfono
               </p>
-              <a href="tel:+541152752200" className="text-brand-700 hover:underline">
-                (011) 5275-2200
+              <a href={`tel:${MAIN_PHONE.tel}`} className="text-brand-700 hover:underline">
+                {MAIN_PHONE.number}
               </a>
             </div>
           </div>
@@ -135,10 +141,10 @@ export default function DiscapacidadPage() {
                 Consultas médicas o estudios
               </p>
               <a
-                href="mailto:autorizaciones@ospiqyp.org.ar"
+                href={`mailto:${AUTHORIZATIONS_EMAIL}`}
                 className="text-brand-700 hover:underline break-all"
               >
-                autorizaciones@ospiqyp.org.ar
+                {AUTHORIZATIONS_EMAIL}
               </a>
             </div>
           </div>
@@ -149,10 +155,10 @@ export default function DiscapacidadPage() {
                 Afiliación
               </p>
               <a
-                href="mailto:afiliaciones@ospiqyp.org.ar"
+                href={`mailto:${AFFILIATIONS_EMAIL}`}
                 className="text-brand-700 hover:underline break-all"
               >
-                afiliaciones@ospiqyp.org.ar
+                {AFFILIATIONS_EMAIL}
               </a>
             </div>
           </div>
@@ -163,10 +169,10 @@ export default function DiscapacidadPage() {
                 Medicación
               </p>
               <a
-                href="mailto:medicacionospiqyp@gmail.com"
+                href={`mailto:${MEDICATION_EMAIL}`}
                 className="text-brand-700 hover:underline break-all"
               >
-                medicacionospiqyp@gmail.com
+                {MEDICATION_EMAIL}
               </a>
             </div>
           </div>

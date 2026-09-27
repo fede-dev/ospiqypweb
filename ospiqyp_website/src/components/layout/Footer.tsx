@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MapPinIcon, ClockIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
-import { ADDRESS, MAIN_PHONES, EMAILS } from "@/content/contact";
+import { ADDRESS, MAIN_PHONES, FOOTER_EMAILS } from "@/content/contact";
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -61,13 +61,13 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4 text-white">Email</h3>
             <ul className="flex flex-col gap-2 mb-4">
-              {EMAILS.slice(0, 2).map((e) => (
-                <li key={e.email}>
+              {FOOTER_EMAILS.map((email) => (
+                <li key={email}>
                   <a
-                    href={`mailto:${e.email}`}
+                    href={`mailto:${email}`}
                     className="text-white hover:underline text-sm break-all transition-colors"
                   >
-                    {e.email}
+                    {email}
                   </a>
                 </li>
               ))}
